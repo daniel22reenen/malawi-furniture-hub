@@ -4,10 +4,12 @@ import { ShoppingCart, Phone, Mail, MapPin } from "lucide-react";
 import { Cart } from "@/components/Cart";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const { addToCart } = useCart();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleAddToCart = (product: { id: string; name: string; price: number; image: string }) => {
     addToCart(product);
@@ -60,11 +62,13 @@ const Index = () => {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
-          <h1 className="text-2xl font-bold text-primary">Malawi Furniture Hub</h1>
+          <h1 className="text-2xl font-bold text-primary cursor-pointer" onClick={() => navigate("/")}>
+            Malawi Furniture Hub
+          </h1>
           <div className="flex items-center gap-4">
-            <Button variant="ghost">Shop</Button>
-            <Button variant="ghost">About</Button>
-            <Button variant="ghost">Contact</Button>
+            <Button variant="ghost" onClick={() => navigate("/shop")}>Shop</Button>
+            <Button variant="ghost" onClick={() => navigate("/about")}>About</Button>
+            <Button variant="ghost" onClick={() => navigate("/contact")}>Contact</Button>
             <Cart />
           </div>
         </div>
@@ -90,10 +94,10 @@ const Index = () => {
               Each piece tells a story of tradition, quality, and sustainability.
             </p>
             <div className="flex gap-4">
-              <Button size="lg" className="text-lg">
+              <Button size="lg" className="text-lg" onClick={() => navigate("/shop")}>
                 Shop Now
               </Button>
-              <Button size="lg" variant="outline" className="text-lg">
+              <Button size="lg" variant="outline" className="text-lg" onClick={() => navigate("/about")}>
                 Learn More
               </Button>
             </div>
@@ -112,6 +116,7 @@ const Index = () => {
               <Card 
                 key={category.name} 
                 className="cursor-pointer p-8 text-center transition-all hover:scale-105 hover:shadow-lg"
+                onClick={() => navigate("/shop")}
               >
                 <div className="mb-4 text-5xl">{category.icon}</div>
                 <h3 className="mb-2 text-xl font-semibold text-card-foreground">
@@ -177,7 +182,9 @@ const Index = () => {
                 practices. When you purchase from us, you're not just buying furniture – 
                 you're supporting families and preserving traditional craftsmanship.
               </p>
-              <Button size="lg" variant="outline">Our Story</Button>
+              <Button size="lg" variant="outline" onClick={() => navigate("/about")}>
+                Our Story
+              </Button>
             </div>
             <div className="relative h-[400px] overflow-hidden rounded-lg">
               <img
