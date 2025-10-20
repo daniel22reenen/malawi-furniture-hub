@@ -1,34 +1,48 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ShoppingCart, Phone, Mail, MapPin } from "lucide-react";
+import { Cart } from "@/components/Cart";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+
+  const handleAddToCart = (product: { id: string; name: string; price: number; image: string }) => {
+    addToCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart`,
+    });
+  };
+
   const featuredProducts = [
     {
-      id: 1,
+      id: "1",
       name: "Handwoven Bamboo Chair",
-      price: "MWK 45,000",
+      price: 45000,
       image: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=500&q=80",
       category: "Chairs"
     },
     {
-      id: 2,
+      id: "2",
       name: "Teak Wood Dining Table",
-      price: "MWK 125,000",
+      price: 125000,
       image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=500&q=80",
       category: "Tables"
     },
     {
-      id: 3,
+      id: "3",
       name: "Carved Wooden Stool",
-      price: "MWK 35,000",
+      price: 35000,
       image: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=500&q=80",
       category: "Stools"
     },
     {
-      id: 4,
+      id: "4",
       name: "Rattan Storage Basket",
-      price: "MWK 18,000",
+      price: 18000,
       image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500&q=80",
       category: "Decor"
     }
@@ -51,9 +65,7 @@ const Index = () => {
             <Button variant="ghost">Shop</Button>
             <Button variant="ghost">About</Button>
             <Button variant="ghost">Contact</Button>
-            <Button size="icon" variant="outline">
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
+            <Cart />
           </div>
         </div>
       </nav>
@@ -134,8 +146,12 @@ const Index = () => {
                     {product.name}
                   </h3>
                   <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-primary">{product.price}</span>
-                    <Button size="sm">Add to Cart</Button>
+                    <span className="text-xl font-bold text-primary">
+                      MWK {product.price.toLocaleString()}
+                    </span>
+                    <Button size="sm" onClick={() => handleAddToCart(product)}>
+                      Add to Cart
+                    </Button>
                   </div>
                 </div>
               </Card>
